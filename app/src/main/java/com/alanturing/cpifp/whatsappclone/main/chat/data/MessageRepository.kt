@@ -1,34 +1,43 @@
 package com.alanturing.cpifp.whatsappclone.main.chat.data
 
-import kotlinx.datetime.Clock
+import com.alanturing.cpifp.whatsappclone.core.network.MessageRepositoyInterface
+import com.alanturing.cpifp.whatsappclone.core.network.MessageResponse
+import kotlinx.datetime.Instant
+
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
-class MessageRepository @Inject constructor(private val messageNetworkRepository: MessageNetworkRepository){
+open class MessageRepository @Inject constructor(private val messageNetworkRepository: MessageNetworkRepository): MessageRepositoyInterface {
 
     private val _message: MutableList<Message> = mutableListOf()
-
     val message: List<Message>
         get() = _message.toList()
 
-
-    fun createMessages(messages:List<Message>){
-
+    override suspend fun createMessages(messages:List<Message>){
     }
-    fun addMssg(text:String,entrante:Boolean,sender:Long){
+
+
+    fun addMssg(text:String, dateTime: Instant, receiver:Long, sender:Long){
         val mssg = Message(
             sender,
             text,
-            Clock.System.now(),
-            entrante,
+            dateTime,
+            receiver,
+            sender
+
         )
         _message.add(mssg)
     }
 
-    fun getMessage(sender: Long): List<Message>{
+    override suspend fun getMessage(sender: Long): List<Message>{
         val response = messageNetworkRepository.getAllMessages()
         return _message.filter { it.id ==sender }
+    }
+
+    fun getConversation(sender: Long, receiver:Long ): List<MessageResponse> {
+        val response = messageNetworkRepository.getConversation(sender, receiver)
+        return response
     }
 }

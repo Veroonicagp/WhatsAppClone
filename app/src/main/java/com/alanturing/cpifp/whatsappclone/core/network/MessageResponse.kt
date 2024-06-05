@@ -8,8 +8,8 @@ data class MessageResponse(
     val id: Long,
     val text: String,
     val dateTime: Instant,
-    val sender: ContactResponse,
-    val receiver: ContactResponse
+    val sender: Long,
+    val reciver: Long
 )
 
 fun List<MessageResponse>.toExternalModel(): List<Message> {
@@ -17,10 +17,9 @@ fun List<MessageResponse>.toExternalModel(): List<Message> {
         Message(
             id = it.id,
             text = it.text,
-            datetime = null,
-            entrante = false
-
-
+            datetime = it.dateTime,
+            sender = it.sender,
+            receiver = it.reciver
         )
     }
 }

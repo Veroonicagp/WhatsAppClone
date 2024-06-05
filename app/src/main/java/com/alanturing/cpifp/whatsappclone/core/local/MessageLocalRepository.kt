@@ -1,18 +1,18 @@
 package com.alanturing.cpifp.whatsappclone.core.local
 
-import com.alanturing.cpifp.whatsappclone.core.network.MessageRepositoryInterface
+import com.alanturing.cpifp.whatsappclone.core.network.MessageRepositoyInterface
 import com.alanturing.cpifp.whatsappclone.main.chat.data.Message
+import com.alanturing.cpifp.whatsappclone.main.chat.data.MessageRepository
 
-class MessageLocalRepository (
+class MessageLocalRepository(
     private val messageDao: MessageDao
-    // por que  es necesario los : con el interfaz de repositorio detras?
-): MessageRepositoryInterface {
-    suspend fun getMessages(): List<Message> {
+): MessageRepositoyInterface {
+    override suspend fun getMessage(sender: Long): List<Message> {
         val messages = messageDao.getAllMessages()
         return messages.toExternalModel()
     }
 
-    suspend fun createMessages(messages: List<Message>) {
+    override suspend fun createMessages(messages: List<Message>) {
         TODO("Not yet implemented")
     }
 

@@ -12,9 +12,9 @@ class ContactRepository @Inject constructor(){
         get() = _contacts.toList()
 
     init {
-        _contacts.add(Contact(1,"Joseph","San Juan"))
-        _contacts.add(Contact(2,"Verónica","González"))
-        _contacts.add(Contact(3,"Jesus","Garcia"))
+        _contacts.add(Contact(102,"Joseph","San Juan", "333333333"))
+        _contacts.add(Contact(103,"Verónica","González", "111111111"))
+        _contacts.add(Contact(104,"Jesus","Garcia","200200200"))
     }
 
 }

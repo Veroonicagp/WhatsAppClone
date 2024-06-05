@@ -7,15 +7,14 @@ import com.alanturing.cpifp.whatsappclone.core.MessageNetworkRepositoryL
 import com.alanturing.cpifp.whatsappclone.core.local.AppDatabase
 import com.alanturing.cpifp.whatsappclone.core.local.MessageDao
 import com.alanturing.cpifp.whatsappclone.core.local.MessageLocalRepository
-import com.alanturing.cpifp.whatsappclone.core.network.MessageRepositoryInterface
+import com.alanturing.cpifp.whatsappclone.core.network.MessageRepositoyInterface
 import com.alanturing.cpifp.whatsappclone.core.network.WhatsAppCloneApi
+import com.alanturing.cpifp.whatsappclone.main.chat.data.MessageRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -53,16 +52,27 @@ object WhatsAppCloneModule {
     @Provides
     @Singleton
     @LocalRepository
-    fun provideLocalRepository(dao:MessageDao): MessageRepositoryInterface {
+    fun provideLocalRepository(dao:MessageDao): MessageRepositoyInterface {
         return MessageLocalRepository(dao)
     }
 
     @Provides
     @Singleton
     @NetworkRepository
-    fun provideNetworkRepository(api:WhatsAppCloneApi): MessageRepositoryInterface
+    fun provideNetworkRepository(api:WhatsAppCloneApi): MessageRepositoyInterface
     {
         return MessageNetworkRepositoryL(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMessageRepository(
+        @LocalRepository localRepository: MessageRepositoyInterface,
+        @NetworkRepository networkRepository: MessageRepositoyInterface
+    ): MessageRepositoyInterface {
+        return DefaultMessageRepository(
+            localRepository,networkRepository
+        )
     }
 
 

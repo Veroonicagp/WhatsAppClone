@@ -8,6 +8,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WhatsAppCloneApi {
@@ -28,4 +29,8 @@ interface WhatsAppCloneApi {
 
     @POST("message")
     suspend fun createMessage(message: MessageRequest): Response<MessageResponse>
+
+    @GET("conversation/{userId1}/{userId2}")
+    suspend fun getConversation(@Path("userId1") userId1:Long ,@Path("userId2") userId2:Long): List<MessageResponse>
+
 }

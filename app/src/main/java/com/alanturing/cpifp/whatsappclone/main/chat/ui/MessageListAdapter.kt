@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.alanturing.cpifp.whatsappclone.core.network.MessageResponse
 import com.alanturing.cpifp.whatsappclone.main.chat.data.Message
 import com.alanturing.cpifp.whatsappclone.databinding.MessageListItemBinding
 
@@ -36,6 +37,8 @@ class MessageListAdapter(): ListAdapter<Message, MessageListAdapter.MessageListI
     override fun onBindViewHolder(holder: MessageListItemViewHolder, position: Int) {
         holder.bindTo(getItem(position))
     }
+
+
 
     object MessageDiff: DiffUtil.ItemCallback<Message>() {
         override fun areItemsTheSame(oldItem: Message, newItem: Message):Boolean {

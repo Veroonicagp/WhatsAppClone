@@ -1,14 +1,15 @@
 package com.alanturing.cpifp.whatsappclone.core
 
-import com.alanturing.cpifp.whatsappclone.core.network.MessageRepositoryInterface
+import com.alanturing.cpifp.whatsappclone.core.network.MessageRepositoyInterface
 import com.alanturing.cpifp.whatsappclone.core.network.WhatsAppCloneApi
 import com.alanturing.cpifp.whatsappclone.core.network.toExternalModel
 import com.alanturing.cpifp.whatsappclone.main.chat.data.Message
+import com.alanturing.cpifp.whatsappclone.main.chat.data.MessageRepository
 
-class MessageNetworkRepositoryL (
-private val api:WhatsAppCloneApi
-): MessageRepositoryInterface {
-    suspend fun getMessages(): List<Message> {
+class MessageNetworkRepositoryL(
+    private val api: WhatsAppCloneApi
+): MessageRepositoyInterface {
+    override suspend fun getMessage(sender: Long): List<Message> {
         val response = api.getAllMesages()
 
         return if (response.isSuccessful) response.body()!!.toExternalModel()
@@ -16,7 +17,7 @@ private val api:WhatsAppCloneApi
 
     }
 
-    suspend fun createMessages(messages: List<Message>) {
+    override suspend fun createMessages(messages: List<Message>) {
         TODO("Not yet implemented")
     }
 

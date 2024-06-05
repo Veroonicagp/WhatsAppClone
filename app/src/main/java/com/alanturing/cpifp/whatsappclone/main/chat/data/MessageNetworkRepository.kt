@@ -20,4 +20,13 @@ class MessageNetworkRepository @Inject constructor(
             }
         }
     }
+
+    fun getConversation(sender: Long, receiver:Long): List<MessageResponse> {
+        return runBlocking {
+            return@runBlocking withContext(Dispatchers.IO) {
+                return@withContext networkService.getConversation(1,2)
+            }
+        }
+    }
+
 }

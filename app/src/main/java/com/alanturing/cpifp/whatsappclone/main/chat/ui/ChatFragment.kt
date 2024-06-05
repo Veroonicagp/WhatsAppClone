@@ -39,19 +39,18 @@ class ChatFragment : Fragment() {
     }
 
 
-    private fun sendMessage(view:View) {
+    fun sendMessage(view:View) {
         val rv = binding.messageList
         val text = binding.editMssg.text.toString()
 
         if (text.isNotBlank()) {
-            messageRepository.addMssg(text,false,args.id)
+            messageRepository.addMssg(text,1,args.id)
             val adapter: MessageListAdapter = rv.adapter as MessageListAdapter
-            adapter.submitList(messageRepository.getMessage((args.id)))
             binding.editMssg.text?.clear()
 
-            // Cerramos el teclado PROFEE!!(Detalles Visuales)
-            //val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            //inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+            //Cerramos el teclado PROFEE!!(Detalles Visuales)
+            val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
 
     }
@@ -78,9 +77,9 @@ class ChatFragment : Fragment() {
         //// Asocio el adaptador al reciclerview
         recyclerView.adapter = adapter
         ///
-        adapter.submitList(messageRepository.message.filter {
-            it.id == id // preguntar david para  que servia
-        })
+        val sender = 1L
+        val reciver = 2L
+        val conversation = messageRepository.getConversation(sender,reciver)
         ///configuramos botón de mensaje
         binding.bttnSend.setOnClickListener {
             sendMessage(it)
